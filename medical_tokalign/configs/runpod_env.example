@@ -1,0 +1,11 @@
+# RunPod environment example for one H100 PCIe 80GB
+export CUDA_VISIBLE_DEVICES=0
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+export HF_HOME=/workspace/.cache/huggingface
+# If Llama 3.2 models are gated for your account, export a token with access
+# export HF_TOKEN=hf_xxx
+
+# Optional: SciSpacy model wheel URL (if not installed already)
+# export SCISPACY_MODEL_URL=https://github.com/allenai/scispacy/releases/download/v0.5.4/en_core_sci_lg-0.5.4-py3-none-any.whl
+
+
