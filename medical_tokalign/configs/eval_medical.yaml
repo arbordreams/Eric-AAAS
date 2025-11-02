@@ -1,0 +1,51 @@
+# H100‑tuned evaluation defaults for one NVIDIA H100 PCIe 80GB
+
+model_id: meta-llama/Meta-Llama-3.1-8B
+eval_backend: vllm        # vllm | hf | tensorrt_llm (stub)
+precision: bf16           # bf16 | fp8
+attn_impl: flash_attention_2
+compile: true
+grad_ckpt: false          # inference path; can be true for warmup
+allow_tf32: true
+matmul_precision: high
+
+random_seed: 17
+output_dir: medical_tokalign/runs/medical_eval
+
+# vLLM sizing for 80GB H100 (adjust if needed)
+vllm:
+  tensor_parallel_size: 1
+  gpu_memory_utilization: 0.92
+  max_model_len: 8192
+  max_batch_tokens: 65536
+  enforce_eager: false
+  trust_remote_code: false
+
+# HF fallback generation params
+hf:
+  per_device_batch_size: 4
+  max_model_len: 8192
+
+# Datasets: robust HF sources with standard splits (no full PubMed/PMC eval)
+datasets:
+  pubmedqa: true
+  medqa_usmle: true
+  mednli: true
+  ncbi_disease: true
+  bc5cdr: true
+  perplexity_corpus: pubmed_rct  # pubmed_rct | pmc_oa_sample
+
+# Generation & eval settings
+gen:
+  max_new_tokens: 64
+  temperature: 0.0
+  top_p: 1.0
+  top_k: 0
+  stop: []
+
+# Alignment/artifact discovery
+alignment:
+  prefer_adapted_artifacts: true
+  search_dir: medical_tokalign/runs/tokenizer_adapt
+
+
